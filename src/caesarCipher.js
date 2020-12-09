@@ -1,3 +1,20 @@
+function getEncryptedIndex(plainIndex, offset, isUpperCase) {
+  const aIndex = isUpperCase ? 65 : 97;
+  const zIndex = isUpperCase ? 90 : 122;
+
+  let encryptedIndex = plainIndex + offset;
+
+  while (encryptedIndex < aIndex) {
+    encryptedIndex = zIndex - (aIndex - 1 - encryptedIndex);
+  }
+
+  while (encryptedIndex > zIndex) {
+    encryptedIndex = aIndex + (encryptedIndex - (zIndex + 1));
+  }
+
+  return encryptedIndex;
+}
+
 function encryptLetter(letter, offset) {
   let isAlphabet = false;
   let isUpperCase = false;
@@ -18,26 +35,8 @@ function encryptLetter(letter, offset) {
   if (isAlphabet) {
     const encryptedIndex = getEncryptedIndex(charCode, offset, isUpperCase);
     return String.fromCharCode(encryptedIndex);
-  } else {
-    return letter;
   }
-}
-
-function getEncryptedIndex(plainIndex, offset, isUpperCase) {
-  const aIndex = isUpperCase ? 65 : 97;
-  const zIndex = isUpperCase ? 90 : 122;
-
-  let encryptedIndex = plainIndex + offset;
-
-  while (encryptedIndex < aIndex) {
-    encryptedIndex = zIndex - (aIndex - 1 - encryptedIndex);
-  }
-
-  while (encryptedIndex > zIndex) {
-    encryptedIndex = aIndex + (encryptedIndex - (zIndex + 1));
-  }
-
-  return encryptedIndex;
+  return letter;
 }
 
 export default function caesarCipher(string, offset) {

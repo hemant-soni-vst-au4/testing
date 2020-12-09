@@ -1,13 +1,19 @@
 import arrayAnalysis from '../src/arrayAnalysis';
 
-it('returns and object with data of a sorted array', () => {
-  expect(arrayAnalysis([2, 4, 6, 8, 10, 12])).toEqual({
-    average: 7, length: 6, max: 12, min: 2,
-  });
+const sampleArray = [7, 6, 4, 8, 2];
+
+test('should return an object with correct average property', () => {
+  expect(arrayAnalysis(sampleArray).average).toBe(5.4);
 });
 
-it('returns and object with data of an unsorted array', () => {
-  expect(arrayAnalysis([1, 8, 3, 4, 2, 6])).toEqual({
-    average: 4, length: 6, max: 8, min: 1,
-  });
+test('should return an object with correct min property', () => {
+  expect(arrayAnalysis(sampleArray).min).toBe(2);
+});
+
+test('should return an object with correct max property', () => {
+  expect(arrayAnalysis(sampleArray).max).toBe(8);
+});
+
+test('should return an object with correct length property', () => {
+  expect(arrayAnalysis(sampleArray).length).toBe(5);
 });
