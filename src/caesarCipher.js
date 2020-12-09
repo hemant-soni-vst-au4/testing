@@ -1,33 +1,45 @@
-function rot13(str) {
-  const lowered = str.toLowerCase();
-  const arr = lowered.split('');
+function encryptLetter(letter, offset) {
+  let isAlphabet = false;
+  let isUpperCase = false;
 
-  const arr1 = [];
-  const arr2 = [];
+  const charCode = letter.charCodeAt(0);
 
-  for (let i = 0; i < arr.length; i += 1) {
-    const item = arr[i];
-    let ascii = item.charCodeAt();
-
-    if (item.match(/[a-z]/)) {
-      if (ascii >= 97 && ascii <= 121) {
-        ascii += 1;
-      } else {
-        ascii = 97;
-      }
-      arr1.push(ascii);
-    } else {
-      arr1.push(item.charCodeAt());
-    }
+  if (charCode >= 65 && charCode <= 90) {
+    isAlphabet = true;
+    isUpperCase = true;
+  } else if (charCode >= 97 && charCode <= 122) {
+    isAlphabet = true;
+    isUpperCase = false;
+  } else {
+    isAlphabet = false;
+    isUpperCase = false;
   }
 
-  for (let j = 0; j < arr1.length; j += 1) {
-    const item2 = arr1[j];
-    arr2.push(String.fromCharCode(item2));
+  if (isAlphabet) {
+    const encryptedIndex = getEncryptedIndex(charCode, offset, isUpperCase);
+    return String.fromCharCode(encryptedIndex);
+  } else {
+    return letter;
   }
-
-  const test = arr2.join('');
-
-  return test;
 }
-export default rot13;
+
+function getEncryptedIndex(plainIndex, offset, isUpperCase) {
+  const aIndex = isUpperCase ? 65 : 97;
+  const zIndex = isUpperCase ? 90 : 122;
+
+  let encryptedIndex = plainIndex + offset;
+
+  while (encryptedIndex < aIndex) {
+    encryptedIndex = zIndex - (aIndex - 1 - encryptedIndex);
+  }
+
+  while (encryptedIndex > zIndex) {
+    encryptedIndex = aIndex + (encryptedIndex - (zIndex + 1));
+  }
+
+  return encryptedIndex;
+}
+
+export default function caesarCipher(string, offset) {
+  return [...string].map((letter) => encryptLetter(letter, offset)).join('');
+}

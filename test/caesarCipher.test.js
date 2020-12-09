@@ -1,13 +1,19 @@
-import rot13 from '../src/caesarCipher';
+import caesarCipher from '../src/caesarCipher';
 
-it('returns a string ciphered', () => {
-  expect(rot13('abc')).toBe('bcd');
+test('should return encrypted string, case sensitive', () => {
+  expect(caesarCipher('The quick brown fox jumps over the lazy dog', 3)).toBe(
+    'Wkh txlfn eurzq ira mxpsv ryhu wkh odcb grj',
+  );
 });
 
-it('returns uppercased words', () => {
-  expect(rot13('Adf')).toBe('beg');
+test('using huge offset', () => {
+  expect(caesarCipher('The quick brown fox jumps over the lazy dog', 100)).toBe(
+    'Pda mqeyg xnksj bkt fqilo kran pda hwvu zkc',
+  );
 });
 
-it('returns uppercased words', () => {
-  expect(rot13('Azf')).toBe('bag');
+test('using punctuation', () => {
+  expect(
+    caesarCipher('The quick brown fox, jumps ,over the, lazy dog', 8),
+  ).toBe('Bpm ycqks jzwev nwf, rcuxa ,wdmz bpm, tihg lwo');
 });
